@@ -13,21 +13,15 @@ object Problem5 extends App {
     "shiro" -> Map("math" -> 99, "social" -> 81),
     "hanako" -> Map("math" -> 84, "english" -> 78, "social" -> 66))
 
-  def passStudents(scores: Map[String, Map[String, Int]]): Map[String, Int] = {
-    val result = mutable.Map[String, Int]()
-
-    scores.map { case (name, score) =>
-      score
-        .get("math")
-        .flatMap { m =>
-          score.get("english").map { e => (e + m) / 2 }
-        }
-        .filter(_ > 80)
-        .map(score => result.put(name, score))
-    }
-
-    result.toMap
-  }
+  def passStudents(scores: Map[String, Map[String, Int]]): Map[String, Int] = scores.flatMap { case (name, score) =>
+    score
+      .get("math")
+      .flatMap { m =>
+        score.get("english").map { e => (e + m) / 2 }
+      }
+      .filter(_ > 80)
+      .map((name, _))
+  }.foldLeft(Map[String, Int]()) { (m, t) => m + t }
 
   println(passStudents(scores))
 }
