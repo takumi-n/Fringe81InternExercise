@@ -14,13 +14,15 @@ object Problem5 extends App {
     "hanako" -> Map("math" -> 84, "english" -> 78, "social" -> 66))
 
   def passStudents(scores: Map[String, Map[String, Int]]): Map[String, Int] = scores.flatMap { case (name, score) =>
-    score
-      .get("math")
-      .flatMap { m =>
-        score.get("english").map { e => (e + m) / 2 }
-      }
-      .filter(_ > 80)
-      .map((name, _))
+    val average = for {
+      e <- score.get("english")
+      m <- score.get("math")
+    } yield (e + m) / 2
+
+    average.map {
+      (name, _)
+    }
+  }.filter { case (_, ave) => ave > 80
   }.foldLeft(Map[String, Int]()) { (m, t) => m + t }
 
   println(passStudents(scores))
