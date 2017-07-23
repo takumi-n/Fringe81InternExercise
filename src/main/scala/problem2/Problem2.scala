@@ -5,8 +5,8 @@ package problem2
   */
 object Problem2 extends App {
   def getFirst(value: Option[String]): String = value match {
-    case Some("") | None => ""
-    case Some(x) => x.substring(0, 1)
+    case Some(x) if x.length > 0 => x.substring(0, 1)
+    case _ => ""
   }
 
   println(getFirst(Some("hello")))
