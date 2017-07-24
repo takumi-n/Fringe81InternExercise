@@ -9,7 +9,17 @@ object Problem2 extends App {
     case _ => ""
   }
 
+  def getFirstWithoutPatternMatching(value: Option[String]): String = {
+    val v = value.getOrElse("")
+    if (v.length == 0) v
+    else v.substring(0, 1)
+  }
+
   println(getFirst(Some("hello")))
   println(getFirst(Some("")))
   println(getFirst(None))
+
+  println(getFirstWithoutPatternMatching(Some("hello")))
+  println(getFirstWithoutPatternMatching(Some("")))
+  println(getFirstWithoutPatternMatching(None))
 }
