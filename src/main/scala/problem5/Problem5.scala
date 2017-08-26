@@ -1,7 +1,5 @@
 package problem5
 
-import scala.collection.mutable
-
 /**
   * Created by takumi on 2017/07/21.
   */
@@ -13,17 +11,13 @@ object Problem5 extends App {
     "shiro" -> Map("math" -> 99, "social" -> 81),
     "hanako" -> Map("math" -> 84, "english" -> 78, "social" -> 66))
 
-  def passStudents(scores: Map[String, Map[String, Int]]): Map[String, Int] = scores flatMap { case (name, score) =>
-    val average = for {
-      e <- score.get("english")
-      m <- score.get("math")
-    } yield (e + m) / 2
-
-    average map {
-      (name, _)
-    }
-  } filter { case (_, ave) => ave > 80
-  }
+  def passStudents(scores: Map[String, Map[String, Int]]): Map[String, Int] = for {
+    (name, score) <- scores
+    e <- score.get("english")
+    m <- score.get("math")
+    average = (e + m) / 2
+    if average > 80
+  } yield (name, average)
 
   println(passStudents(scores))
 }
